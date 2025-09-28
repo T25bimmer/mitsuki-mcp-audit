@@ -6,8 +6,6 @@
 
 审计结果为标准化 markdown 文件，将来亦可支持渲染为其他标准格式，如JSON、HTML等。工具可用于本地依赖检查和技术选型等安全审计工作。
 
-项目已无缝集成到公司的LLM工具链，服务于公司所有生产线，安全审计效率提升90%。
-
 ## 技术栈
 
 NodeJS、MCP Server、Zod、Ejs、Git API、Typescript
