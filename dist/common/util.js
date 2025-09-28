@@ -1,27 +1,24 @@
-import { __awaiter } from '../node_modules/.pnpm/@rollup_plugin-typescript@1_9e7d14bf196bd61ffb178f33770ede83/node_modules/tslib/tslib.es6.js';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import { exec } from 'child_process';
 import { promisify } from 'util';
 
 const execAsync = promisify(exec); // 将 exec 转换为返回 Promise 的函数
-function runCommand(cmd, cwd) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const stdout = yield execAsync(cmd, {
-                cwd,
-                encoding: 'utf-8',
-            });
-            // 返回 audit 的 JSON 结果
-            return stdout.stdout.toString();
+async function runCommand(cmd, cwd) {
+    try {
+        const stdout = await execAsync(cmd, {
+            cwd,
+            encoding: 'utf-8',
+        });
+        // 返回 audit 的 JSON 结果
+        return stdout.stdout.toString();
+    }
+    catch (err) {
+        if (err.stdout) {
+            return err.stdout.toString();
         }
-        catch (err) {
-            if (err.stdout) {
-                return err.stdout.toString();
-            }
-            throw err;
-        }
-    });
+        throw err;
+    }
 }
 function uniqueId() {
     return Math.random().toString(36).substring(2, 15) + Date.now().toString(36);

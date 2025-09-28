@@ -1,4 +1,3 @@
-import { __awaiter } from './node_modules/.pnpm/@rollup_plugin-typescript@1_9e7d14bf196bd61ffb178f33770ede83/node_modules/tslib/tslib.es6.js';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { z } from 'zod';
@@ -20,8 +19,8 @@ server.registerTool('auditPackage', {
             .string()
             .describe('保存审计结果的路径，传递当前工程的根路径下的工程明audit.md，如果没有当前工程，则传递桌面路径下的audit.md（注意，桌面路径必须传入绝对路径）'),
     },
-}, (_a) => __awaiter(void 0, [_a], void 0, function* ({ projectRoot, savePath }) {
-    yield auditPackage(projectRoot, savePath);
+}, async ({ projectRoot, savePath }) => {
+    await auditPackage(projectRoot, savePath);
     return {
         content: [
             {
@@ -30,6 +29,6 @@ server.registerTool('auditPackage', {
             },
         ],
     };
-}));
+});
 const transport = new StdioServerTransport();
 server.connect(transport);

@@ -1,5 +1,3 @@
-import { __awaiter } from '../node_modules/.pnpm/@rollup_plugin-typescript@1_9e7d14bf196bd61ffb178f33770ede83/node_modules/tslib/tslib.es6.js';
-
 function parseGithubUrl(url) {
     try {
         const parsedUrl = new URL(url);
@@ -27,27 +25,23 @@ function parseGithubUrl(url) {
         throw error;
     }
 }
-function getPackageJsonUrl(gitInfo) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let { owner, repo, path } = gitInfo;
-        if (path.startsWith('/tree/')) {
-            const pathParts = path.split('/').filter(Boolean);
-            path = `tags/${pathParts[1]}`;
-        }
-        else {
-            const url = `https://api.github.com/repos/${owner}/${repo}`;
-            const info = yield fetch(url).then((resp) => resp.json());
-            path = `heads/${info.default_branch}`;
-        }
-        return `https://raw.githubusercontent.com/${owner}/${repo}/${path}/package.json`;
-    });
+async function getPackageJsonUrl(gitInfo) {
+    let { owner, repo, path } = gitInfo;
+    if (path.startsWith('/tree/')) {
+        const pathParts = path.split('/').filter(Boolean);
+        path = `tags/${pathParts[1]}`;
+    }
+    else {
+        const url = `https://api.github.com/repos/${owner}/${repo}`;
+        const info = await fetch(url).then((resp) => resp.json());
+        path = `heads/${info.default_branch}`;
+    }
+    return `https://raw.githubusercontent.com/${owner}/${repo}/${path}/package.json`;
 }
-function parseRemoteProject(githubUrl) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const gitInfo = parseGithubUrl(githubUrl);
-        const packgeJsonUrl = yield getPackageJsonUrl(gitInfo);
-        return yield fetch(packgeJsonUrl).then((resp) => resp.json());
-    });
+async function parseRemoteProject(githubUrl) {
+    const gitInfo = parseGithubUrl(githubUrl);
+    const packgeJsonUrl = await getPackageJsonUrl(gitInfo);
+    return await fetch(packgeJsonUrl).then((resp) => resp.json());
 }
 
 export { parseRemoteProject };
