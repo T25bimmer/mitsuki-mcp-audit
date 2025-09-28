@@ -14,3 +14,6 @@ export async function createWorkDir() {
     await fs.promises.mkdir(workDir, { recursive:true })
     return workDir
 }
+export async function deleteWorkDir(workDir:string) {
+    await fs.promises.rm(workDir, { recursive: true })
+}
