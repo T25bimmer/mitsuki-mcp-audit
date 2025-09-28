@@ -1,5 +1,5 @@
 import { npmAudit } from './npmAudit.js';
-import { normalizeAuditResult } from './normalizeAduitResult.js';
+import { normalizeAuditResult } from './normalizeAuditResult.js';
 import { currentAudit } from './currentAudit.js';
 
 async function audit(workDir, packageJson) {
